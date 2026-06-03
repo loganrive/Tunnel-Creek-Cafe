@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tunnel Creek Cafe — Incline Village, Lake Tahoe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:  #1a3a2a;
+      --green-mid:   #2d5a3d;
+      --green-light: #4a8c5c;
+      --blue-lake:   #2a6b8a;
+      --blue-light:  #5ab4d6;
+      --gold:        #c9a84c;
+      --cream:       #f5f0e8;
+      --warm-white:  #faf7f2;
+      --text-dark:   #1a1a1a;
+      --text-mid:    #4a4a4a;
+      --text-light:  #7a7a7a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--warm-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(26, 58, 42, 0.96);
+      backdrop-filter: blur(12px);
+      padding: 14px 48px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: #fff; text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(42,107,138,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(74,140,92,0.2) 0%, transparent 55%),
+        linear-gradient(165deg, #0d2318 0%, #1a3a2a 35%, #0f2535 65%, #0a1f2e 100%);
+    }
+    /* Mountain silhouette */
+    .hero-mountains {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 55%;
+    }
+    .hero-mountains svg { width: 100%; height: 100%; }
+    /* Lake reflection */
+    .hero-lake {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 22%;
+      background: linear-gradient(180deg, rgba(42,107,138,0.45) 0%, rgba(15,37,53,0.8) 100%);
+    }
+    /* Pine trees */
+    .hero-pines {
+      position: absolute; bottom: 20%; left: 0; right: 0;
+      height: 30%; pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 10;
+      text-align: center; padding: 0 24px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 900; line-height: 1.0;
+      color: #fff;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 1s ease 0.5s forwards;
+    }
+    .hero-title em { color: var(--gold); font-style: normal; }
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 1.1rem; color: rgba(255,255,255,0.7);
+      font-weight: 300; letter-spacing: 0.02em;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .hero-badges {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      margin-top: 36px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.8s ease 1.0s forwards;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; padding: 10px 22px;
+      font-size: 0.82rem; color: rgba(255,255,255,0.9);
+      font-weight: 500; letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+    }
+    .hero-badge span { color: var(--gold); margin-right: 6px; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeIn 1s ease 1.5s forwards;
+      cursor: pointer;
+    }
+    .hero-scroll-text {
+      font-size: 0.68rem; letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.5); text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(180deg, rgba(201,168,76,0.8), transparent);
+      animation: lineGrow 1.5s ease-in-out infinite;
+    }
+    @keyframes lineGrow {
+      0%,100% { transform: scaleY(1); opacity: 1; }
+      50% { transform: scaleY(0.6); opacity: 0.4; }
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 24px; }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--green-light); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.15;
+      color: var(--green-deep); margin-bottom: 20px;
+    }
+    .section-sub {
+      font-size: 1.05rem; color: var(--text-mid);
+      line-height: 1.75; max-width: 560px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--cream);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center; max-width: 1200px; margin: 0 auto;
+    }
+    .about-visual {
+      position: relative; border-radius: 24px; overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--green-deep), var(--blue-lake));
+    }
+    .about-visual-inner {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+    }
+    .about-icon { font-size: 5rem; }
+    .about-visual-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: rgba(255,255,255,0.9);
+      text-align: center; padding: 0 24px; font-weight: 700;
+    }
+    .about-visual-sub {
+      font-size: 0.85rem; color: rgba(255,255,255,0.55);
+      text-align: center; padding: 0 32px; line-height: 1.6;
+    }
+    .about-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+    .about-chip {
+      background: var(--green-deep); color: #fff;
+      border-radius: 50px; padding: 8px 18px;
+      font-size: 0.8rem; font-weight: 500;
+    }
+
+    /* ── MENU ── */
+    #menu {
+      background: var(--green-deep);
+      max-width: 100%; padding: 100px 48px;
+    }
+    #menu .inner { max-width: 1100px; margin: 0 auto; }
+    #menu .section-title { color: var(--cream); }
+    #menu .section-label { color: var(--gold); }
+    #menu .section-sub { color: rgba(255,255,255,0.55); }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 56px;
+    }
+    .menu-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 32px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .menu-card:hover {
+      background: rgba(255,255,255,0.09);
+      transform: translateY(-4px);
+    }
+    .menu-card-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .menu-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .menu-card-items { list-style: none; }
+    .menu-card-items li {
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.9rem; color: rgba(255,255,255,0.65);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .menu-card-items li:last-child { border-bottom: none; }
+    .menu-tag {
+      font-size: 0.68rem; background: rgba(201,168,76,0.2);
+      color: var(--gold); border-radius: 4px; padding: 2px 8px;
+    }
+
+    /* ── DRINKS ── */
+    .drinks-strip {
+      background: var(--green-mid);
+      padding: 48px; text-align: center;
+    }
+    .drinks-strip h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream); font-size: 1.6rem; margin-bottom: 24px;
+    }
+    .drinks-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .drink-pill {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; padding: 10px 22px;
+      font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: 500;
+    }
+    .drink-pill span { margin-right: 6px; }
+
+    /* ── HOURS & EVENTS ── */
+    #hours {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .hours-card {
+      background: var(--cream); border-radius: 24px; padding: 40px;
+    }
+    .hours-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
+    .hours-time { color: var(--green-light); font-weight: 600; font-size: 0.9rem; }
+    .hours-time.special { color: var(--gold); }
+    .events-card {
+      background: linear-gradient(135deg, var(--green-deep), var(--blue-lake));
+      border-radius: 24px; padding: 40px;
+    }
+    .events-card .section-label { color: var(--gold); }
+    .events-card .section-title { color: var(--cream); font-size: 2rem; margin-bottom: 24px; }
+    .event-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .event-item:last-child { border-bottom: none; }
+    .event-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .event-title { font-weight: 600; color: var(--cream); margin-bottom: 4px; }
+    .event-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* ── LOCATION ── */
+    #location {
+      background: var(--cream); padding: 100px 48px;
+    }
+    #location .inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .map-placeholder {
+      border-radius: 24px; overflow: hidden;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #1a3a2a 0%, #2a6b8a 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      font-family: 'Playfair Display', serif;
+      color: rgba(255,255,255,0.8); font-size: 1.2rem;
+      cursor: pointer; transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .map-placeholder:hover { opacity: 0.9; }
+    .map-placeholder .map-icon { font-size: 3rem; }
+    .map-placeholder .map-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; }
+    .contact-list { list-style: none; margin-top: 32px; }
+    .contact-list li {
+      display: flex; gap: 16px; align-items: center;
+      padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.07);
+      font-size: 0.95rem; color: var(--text-mid);
+    }
+    .contact-list li:last-child { border-bottom: none; }
+    .contact-list .ci { font-size: 1.4rem; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep); padding: 48px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 900;
+      color: #fff; margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-sub {
+      font-size: 0.8rem; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      #about, #hours, #location .inner { grid-template-columns: 1fr; gap: 40px; }
+      section { padding: 60px 20px; }
+      #menu { padding: 60px 20px; }
+      #location { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Tunnel Creek <span>Cafe</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Mountain SVG silhouette -->
+  <div class="hero-mountains">
+    <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" fill="none">
+      <!-- Back range (lighter) -->
+      <path d="M0,420 L120,300 L220,360 L340,220 L460,310 L560,180 L680,280 L780,160 L900,260 L1020,140 L1140,240 L1240,120 L1340,200 L1440,100 L1440,500 L0,500 Z"
+            fill="rgba(30,80,55,0.5)"/>
+      <!-- Mid range -->
+      <path d="M0,460 L80,360 L180,420 L280,300 L400,380 L500,260 L620,350 L720,220 L840,320 L960,200 L1080,300 L1200,180 L1320,280 L1440,200 L1440,500 L0,500 Z"
+            fill="rgba(20,55,38,0.7)"/>
+      <!-- Front range (darkest) -->
+      <path d="M0,500 L0,420 L100,340 L200,400 L320,300 L420,380 L520,280 L640,360 L740,260 L860,340 L960,240 L1080,320 L1180,240 L1300,320 L1440,260 L1440,500 Z"
+            fill="#0d2318"/>
+      <!-- Pine trees silhouette -->
+      <g fill="#081a10" opacity="0.9">
+        <polygon points="60,500 80,440 100,500"/>
+        <polygon points="75,500 95,420 115,500"/>
+        <polygon points="90,500 110,450 130,500"/>
+        <polygon points="200,500 218,445 236,500"/>
+        <polygon points="215,500 233,425 251,500"/>
+        <polygon points="380,500 398,438 416,500"/>
+        <polygon points="395,500 413,415 431,500"/>
+        <polygon points="600,500 618,440 636,500"/>
+        <polygon points="615,500 633,420 651,500"/>
+        <polygon points="630,500 648,450 666,500"/>
+        <polygon points="820,500 838,435 856,500"/>
+        <polygon points="835,500 853,415 871,500"/>
+        <polygon points="1050,500 1068,442 1086,500"/>
+        <polygon points="1065,500 1083,422 1101,500"/>
+        <polygon points="1080,500 1098,452 1116,500"/>
+        <polygon points="1280,500 1298,438 1316,500"/>
+        <polygon points="1295,500 1313,418 1331,500"/>
+        <polygon points="1380,500 1398,445 1416,500"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-lake"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Incline Village · Lake Tahoe</div>
+    <h1 class="hero-title">Tunnel Creek<br><em>Cafe</em></h1>
+    <p class="hero-sub">Where the trail begins and the coffee never stops.</p>
+    <div class="hero-badges">
+      <div class="hero-badge"><span>☕</span> Breakfast & Lunch</div>
+      <div class="hero-badge"><span>🍺</span> 8 Rotating Taps</div>
+      <div class="hero-badge"><span>🎵</span> Live Music Saturdays</div>
+      <div class="hero-badge"><span>🥾</span> Trailhead Dining</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+    <div class="hero-scroll-text">Explore</div>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-visual-inner">
+      <div class="about-icon">🏔️</div>
+      <div class="about-visual-text">At the edge of Lake Tahoe</div>
+      <div class="about-visual-sub">Nestled at the start of the East Shore Trail in Incline Village, Nevada</div>
+    </div>
+  </div>
+  <div class="about-text reveal reveal-delay-1">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">A Local Gem at the Quiet Edge of Tahoe</h2>
+    <p class="section-sub">Tunnel Creek Cafe is your perfect pit stop before — or after — hitting the trail. We serve up fresh breakfasts, hearty lunches, and cold drinks in a laid-back atmosphere surrounded by the natural beauty of Lake Tahoe.</p>
+    <p class="section-sub" style="margin-top:16px">Whether you're fueling up for a hike or winding down after one, we've got the food, the drinks, and the views to make it memorable.</p>
+    <div class="about-chips">
+      <div class="about-chip">🌲 Trailhead Location</div>
+      <div class="about-chip">🅿️ Ample Parking</div>
+      <div class="about-chip">🐕 Dog Friendly</div>
+      <div class="about-chip">🌅 Tahoe Views</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="inner">
+    <div class="reveal">
+      <div class="section-label">What We Serve</div>
+      <h2 class="section-title">Fresh Food, Mountain Style</h2>
+      <p class="section-sub">Breakfast served all morning, lunch until close. Made fresh, served fast, enjoyed outside.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-icon">🍳</div>
+        <div class="menu-card-title">Breakfast</div>
+        <ul class="menu-card-items">
+          <li>Breakfast Burritos <span class="menu-tag">Fan Fave</span></li>
+          <li>Eggs & Toast</li>
+          <li>Avocado Toast</li>
+          <li>Granola Bowl</li>
+          <li>Breakfast Sandwiches</li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-icon">🥗</div>
+        <div class="menu-card-title">Lunch</div>
+        <ul class="menu-card-items">
+          <li>Trail Burgers <span class="menu-tag">Popular</span></li>
+          <li>Fresh Salads</li>
+          <li>Wraps & Sandwiches</li>
+          <li>Soups of the Day</li>
+          <li>Loaded Fries</li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-3">
+        <div class="menu-card-icon">☕</div>
+        <div class="menu-card-title">Coffee & Drinks</div>
+        <ul class="menu-card-items">
+          <li>Espresso & Lattes <span class="menu-tag">Local Roast</span></li>
+          <li>Cold Brew</li>
+          <li>Matcha & Chai</li>
+          <li>Fresh Juices</li>
+          <li>Smoothies</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRINKS STRIP -->
+<div class="drinks-strip">
+  <h3>🍺 8 Rotating Taps + Full Cooler</h3>
+  <div class="drinks-row">
+    <div class="drink-pill"><span>🍺</span>Craft Beer</div>
+    <div class="drink-pill"><span>🍎</span>Hard Cider</div>
+    <div class="drink-pill"><span>🌿</span>Hard Kombucha</div>
+    <div class="drink-pill"><span>🍹</span>Cocktails</div>
+    <div class="drink-pill"><span>🍷</span>Wine</div>
+    <div class="drink-pill"><span>✨</span>Hard Seltzer</div>
+  </div>
+</div>
+
+<!-- HOURS & EVENTS -->
+<section id="hours" style="max-width:1200px;margin:0 auto;padding:100px 48px;">
+  <div class="hours-card reveal">
+    <div class="section-label">We're Open</div>
+    <h2 class="section-title" style="font-size:1.8rem;margin-bottom:24px">Hours</h2>
+    <div class="hours-row">
+      <span class="hours-day">Monday – Thursday</span>
+      <span class="hours-time">9am – 3pm</span>
+    </div>
+    <div class="hours-row">
+      <span class="hours-day">Friday</span>
+      <span class="hours-time">9am – 4pm</span>
+    </div>
+    <div class="hours-row">
+      <span class="hours-day">Saturday</span>
+      <span class="hours-time special">9am – 8pm 🎵</span>
+    </div>
+    <div class="hours-row">
+      <span class="hours-day">Sunday</span>
+      <span class="hours-time">9am – 4pm</span>
+    </div>
+  </div>
+  <div class="events-card reveal reveal-delay-1">
+    <div class="section-label">Events</div>
+    <h2 class="section-title">Live at Tunnel Creek</h2>
+    <div class="event-item">
+      <div class="event-icon">🎸</div>
+      <div>
+        <div class="event-title">Live Music Every Saturday</div>
+        <div class="event-desc">Free live music performances every Saturday evening. Local Tahoe artists, great vibes, cold drinks.</div>
+      </div>
+    </div>
+    <div class="event-item">
+      <div class="event-icon">🎬</div>
+      <div>
+        <div class="event-title">Summer Movie Nights</div>
+        <div class="event-desc">Outdoor movie nights throughout the summer season. Grab a drink and enjoy a film under the Tahoe stars.</div>
+      </div>
+    </div>
+    <div class="event-item">
+      <div class="event-icon">🥾</div>
+      <div>
+        <div class="event-title">East Shore Trail Gateway</div>
+        <div class="event-desc">Fuel up before hitting the East Shore Trail. We're right at the trailhead — perfect start and finish to your adventure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="inner">
+    <div class="reveal">
+      <div class="section-label">Find Us</div>
+      <h2 class="section-title">Right at the Trailhead</h2>
+      <p class="section-sub">We're easy to find with plenty of parking — just follow Tunnel Creek Road to where the adventure begins.</p>
+      <ul class="contact-list">
+        <li><span class="ci">📍</span> 1115 Tunnel Creek Rd, Incline Village, NV 89451</li>
+        <li><span class="ci">📞</span> (775) 298-2502</li>
+        <li><span class="ci">🌐</span> tunnelcreekcafe.com</li>
+        <li><span class="ci">🅿️</span> Free parking on site</li>
+      </ul>
+    </div>
+    <a class="map-placeholder reveal reveal-delay-1"
+       href="https://maps.google.com/?q=1115+Tunnel+Creek+Rd+Incline+Village+NV"
+       target="_blank">
+      <div class="map-icon">🗺️</div>
+      <div>Open in Google Maps</div>
+      <div class="map-sub">1115 Tunnel Creek Rd · Incline Village, NV</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Tunnel Creek <span>Cafe</span></div>
+  <div class="footer-sub">1115 Tunnel Creek Rd · Incline Village, NV · (775) 298-2502</div>
+  <div style="margin-top:16px;font-size:0.75rem;color:rgba(255,255,255,0.2)">Open daily · Breakfast & Lunch · Live Music Saturdays</div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
