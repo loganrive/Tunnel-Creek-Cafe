@@ -67,10 +67,17 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
+      background-image: url('assets/cafe-exterior.webp');
+      background-size: cover;
+      background-position: center 40%;
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(42,107,138,0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(74,140,92,0.2) 0%, transparent 55%),
-        linear-gradient(165deg, #0d2318 0%, #1a3a2a 35%, #0f2535 65%, #0a1f2e 100%);
+        linear-gradient(180deg, rgba(10,25,15,0.55) 0%, rgba(10,25,15,0.3) 40%, rgba(10,25,15,0.75) 100%);
     }
     /* Mountain silhouette */
     .hero-mountains {
@@ -350,6 +357,82 @@
       letter-spacing: 0.08em;
     }
 
+    /* ── TRAILS ── */
+    #trails {
+      background: var(--warm-white); padding: 100px 48px;
+    }
+    #trails .inner { max-width: 1200px; margin: 0 auto; }
+    .trails-intro { max-width: 600px; margin-bottom: 56px; }
+    .trail-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .trail-card {
+      border-radius: 24px; overflow: hidden;
+      background: var(--cream);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .trail-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+    }
+    .trail-img {
+      height: 220px; position: relative; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    .trail-img-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      transition: transform 0.5s ease;
+    }
+    .trail-card:hover .trail-img-bg { transform: scale(1.06); }
+    .trail-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
+    }
+    .trail-difficulty {
+      position: relative; z-index: 2;
+      margin: 0 20px 16px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 5px 14px;
+      border-radius: 50px; display: inline-block;
+    }
+    .diff-easy { background: rgba(0,200,100,0.9); color: #fff; }
+    .diff-moderate { background: rgba(255,165,0,0.9); color: #fff; }
+    .diff-hard { background: rgba(220,50,50,0.9); color: #fff; }
+    .trail-body { padding: 24px 28px 28px; }
+    .trail-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--green-deep); margin-bottom: 8px;
+    }
+    .trail-desc {
+      font-size: 0.88rem; color: var(--text-mid);
+      line-height: 1.65; margin-bottom: 18px;
+    }
+    .trail-stats {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+    .trail-stat {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .trail-stat-val {
+      font-weight: 700; font-size: 1rem; color: var(--green-deep);
+    }
+    .trail-stat-label {
+      font-size: 0.72rem; color: var(--text-light);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .trail-link {
+      display: inline-block; margin-top: 16px;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--green-light); text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .trail-link:hover { color: var(--green-deep); }
+
     /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0; transform: translateY(40px);
@@ -379,6 +462,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
     <li><a href="#hours">Hours</a></li>
+    <li><a href="#trails">Trails</a></li>
     <li><a href="#location">Location</a></li>
   </ul>
 </nav>
@@ -597,6 +681,92 @@
   </div>
 </section>
 
+<!-- TRAILS -->
+<section id="trails">
+  <div class="inner">
+    <div class="trails-intro reveal">
+      <div class="section-label">Explore the Area</div>
+      <h2 class="section-title">Trails Right Outside Our Door</h2>
+      <p class="section-sub">Tunnel Creek Cafe sits at the gateway to some of Lake Tahoe's best trails. Fuel up with us before you head out — or reward yourself after the hike.</p>
+    </div>
+    <div class="trail-cards">
+
+      <div class="trail-card reveal reveal-delay-1">
+        <div class="trail-img">
+          <div class="trail-img-bg" style="background: linear-gradient(135deg,#1a4a2a,#2a7a4a,#1a3a5a); background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80'); background-size:cover; background-position:center;"></div>
+          <div class="trail-img-overlay"></div>
+          <span class="trail-difficulty diff-moderate">Moderate</span>
+        </div>
+        <div class="trail-body">
+          <div class="trail-name">East Shore Trail</div>
+          <div class="trail-desc">The trail right out our front door. A stunning paved path hugging the eastern shore of Lake Tahoe with jaw-dropping lake and mountain views the entire way.</div>
+          <div class="trail-stats">
+            <div class="trail-stat"><span class="trail-stat-val">6.5 mi</span><span class="trail-stat-label">Length</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">600 ft</span><span class="trail-stat-label">Elevation</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">3–4 hrs</span><span class="trail-stat-label">Duration</span></div>
+          </div>
+          <a class="trail-link" href="https://www.alltrails.com/trail/us/nevada/tahoe-east-shore-trail" target="_blank">View on AllTrails →</a>
+        </div>
+      </div>
+
+      <div class="trail-card reveal reveal-delay-2">
+        <div class="trail-img">
+          <div class="trail-img-bg" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80'); background-size:cover; background-position:center;"></div>
+          <div class="trail-img-overlay"></div>
+          <span class="trail-difficulty diff-hard">Hard</span>
+        </div>
+        <div class="trail-body">
+          <div class="trail-name">Flume Trail</div>
+          <div class="trail-desc">One of the most iconic mountain bike and hiking trails in the entire Sierra Nevada. Dramatic cliff-side views of Lake Tahoe from high above will leave you speechless.</div>
+          <div class="trail-stats">
+            <div class="trail-stat"><span class="trail-stat-val">14 mi</span><span class="trail-stat-label">Length</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">1,700 ft</span><span class="trail-stat-label">Elevation</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">5–7 hrs</span><span class="trail-stat-label">Duration</span></div>
+          </div>
+          <a class="trail-link" href="https://www.alltrails.com/trail/us/nevada/flume-trail" target="_blank">View on AllTrails →</a>
+        </div>
+      </div>
+
+      <div class="trail-card reveal reveal-delay-3">
+        <div class="trail-img">
+          <div class="trail-img-bg" style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80'); background-size:cover; background-position:center;"></div>
+          <div class="trail-img-overlay"></div>
+          <span class="trail-difficulty diff-moderate">Moderate</span>
+        </div>
+        <div class="trail-body">
+          <div class="trail-name">Tunnel Creek Trail</div>
+          <div class="trail-desc">Named after the creek that runs through it, this forested trail winds through tall pines and offers a peaceful escape into the Sierra Nevada wilderness above Incline Village.</div>
+          <div class="trail-stats">
+            <div class="trail-stat"><span class="trail-stat-val">4.2 mi</span><span class="trail-stat-label">Length</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">900 ft</span><span class="trail-stat-label">Elevation</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">2–3 hrs</span><span class="trail-stat-label">Duration</span></div>
+          </div>
+          <a class="trail-link" href="https://www.alltrails.com/trail/us/nevada/tunnel-creek-trail" target="_blank">View on AllTrails →</a>
+        </div>
+      </div>
+
+      <div class="trail-card reveal reveal-delay-1">
+        <div class="trail-img">
+          <div class="trail-img-bg" style="background-image: url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=600&q=80'); background-size:cover; background-position:center;"></div>
+          <div class="trail-img-overlay"></div>
+          <span class="trail-difficulty diff-easy">Easy</span>
+        </div>
+        <div class="trail-body">
+          <div class="trail-name">Incline Flats Trail</div>
+          <div class="trail-desc">A gentle lakeside stroll perfect for families, beginners, or anyone wanting a relaxed morning walk after breakfast at the cafe. Flat terrain with beautiful Tahoe scenery.</div>
+          <div class="trail-stats">
+            <div class="trail-stat"><span class="trail-stat-val">2.1 mi</span><span class="trail-stat-label">Length</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">80 ft</span><span class="trail-stat-label">Elevation</span></div>
+            <div class="trail-stat"><span class="trail-stat-val">1 hr</span><span class="trail-stat-label">Duration</span></div>
+          </div>
+          <a class="trail-link" href="https://www.alltrails.com/trail/us/nevada/incline-flats-trail" target="_blank">View on AllTrails →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Tunnel Creek <span>Cafe</span></div>
@@ -605,6 +775,12 @@
 </footer>
 
 <script>
+  // Hero photo slow zoom
+  window.addEventListener('load', () => {
+    const bg = document.querySelector('.hero-bg');
+    if (bg) bg.style.transform = 'scale(1)';
+  });
+
   // Nav scroll effect
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
